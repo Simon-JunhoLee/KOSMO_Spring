@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>사용자등록</title>
+</head>
+<body>
+	<h1>사용자등록</h1>
+	<form method="post" name="frm">
+		<input name="uid" placeholder="아이디"/><hr>
+		<input name="upass" placeholder="비밀번호" type="password"/><hr>
+		<input name="uname" placeholder="이름"/> <br>
+		<button>등록</button> 
+		<button type="reset">취소</button>
+	</form>
+</body>
+</html>
