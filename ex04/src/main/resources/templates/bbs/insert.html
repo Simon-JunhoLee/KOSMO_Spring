@@ -1,0 +1,60 @@
+<div>
+	<form name="frm">
+		<h1 style="text-align:center;">게시글쓰기</h1>
+		<div style="padding: 0% 25%;">
+			제목 : <input name="title" size="50">
+		</div>
+		<p>
+		<div style="padding: 0% 25%;">
+			<input type="hidden" name="uid" value="">
+			작성자 : <span id="writer_name"></span>
+			(<span id="writer_id"></span>)
+		</div>
+		<p>
+		<textarea name="contents" rows=10 cols=120 style="margin: 0% 25%;"></textarea>
+		<hr>
+		<div id="buttons" style="text-align:center;">
+			<button>글쓰기</button>
+			<button type="reset">취소</button>
+		</div>
+	</form>
+</div>
+
+<script>
+	const uid = user.uid;
+	const uname = user.uname;
+	
+	document.querySelector('input[name="uid"]').value = uid;
+	document.querySelector('#writer_name').textContent = uname;
+	document.querySelector('#writer_id').textContent = uid;
+	
+	$(frm).on("submit", function(e){
+		e.preventDefault();
+		const title = $(frm.title).val();
+		const contents = $(frm.contents).val();
+		if(title==""){
+			Swal.fire({
+			  title: "게시글 작성 에러!",
+			  text: "제목을 입력하세요!",
+			  icon: "error"
+			}).then((result) => {							
+				return;
+			});	
+		}
+		// 글 저장
+		$.ajax({
+			type:"post",
+			url:"/bbs/insert",
+			data:{title, contents, uid},
+			success:function(){
+				Swal.fire({
+				  title: "게시글 작성 성공!",
+				  text: "",
+				  icon: "success"
+				}).then((result) => {							
+					location.href="/bbs/list";
+				});	
+			}
+		});
+	});
+</script>

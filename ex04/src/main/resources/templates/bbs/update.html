@@ -1,0 +1,61 @@
+<div  xmlns:th="http://www.thymeleaf.org">
+	<form name="frm">
+		<h1 style="text-align:center;">게시글 정보</h1>
+		<div style="padding: 0% 25%;">
+			[<span th:text="${bbs.bid}"></span>]
+			제목 : <input name="title" th:value="${bbs.title}" size="50">
+		</div>
+		<p>
+		<div style="padding: 0% 25%;">
+			작성자 : <span th:text="${bbs.uname}"></span>
+			(<span th:text="${bbs.uid}"></span>)
+		</div>
+		<p>
+		<textarea name="contents" th:text="${bbs.contents}" rows=10 cols=120 style="margin: 0% 25%;"></textarea>
+		<hr>
+		<div id="buttons" style="text-align:center;">
+			<button>수정</button>
+			<button id="btn-cancel" type="reset">취소</button>
+		</div>
+	</form>
+</div>
+
+<script>
+	const bid = "[[${bbs.bid}]]";
+	
+	$(frm).on("submit", function(e){
+		e.preventDefault();
+		
+		Swal.fire({
+		  title: "게시물을 수정",
+		  text: bid + "번 게시물을 수정하시겠습니까?",
+		  showCancelButton: true,
+		  confirmButtonText: "Confirm",
+		  icon:"warning",
+		}).then((result) => {
+		  /* Read more about isConfirmed, isDenied below */
+		  if (result.isConfirmed) {				  
+			// 삭제처리
+			$.ajax({
+				type:"post",
+				url:"/bbs/update",
+				data: {title:$(frm.title).val(),
+					   contents:$(frm.contents).val(),
+					   bid
+					},
+				success:function(){
+					Swal.fire({
+					  title: "수정 성공!",
+					  text: "",
+					  icon: "success"
+					}).then((result) => {							
+						location.href="/bbs/read/" + bid;
+					});	
+				}
+			});
+		  }else{
+			  return;
+		  }
+		});
+	});
+</script>

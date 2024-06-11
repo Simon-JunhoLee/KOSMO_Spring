@@ -1,0 +1,46 @@
+<div>
+	<h1>로그인</h1>
+	<form name="frm">
+		<input name="uid" value="jun" placeholder="아이디">
+		<input name="upass" value="pass" type="password" placeholder="비밀번호">
+		<button>로그인</button>
+	</form>
+	<script>
+		$(frm).on("submit", function(e){
+			e.preventDefault();
+			const uid = $(frm.uid).val();
+			const upass = $(frm.upass).val();
+			$.ajax({
+				type:"get",
+				url:"/users/" + uid,
+				dataType:"json",
+				success:function(data){
+					// console.log(data)
+					if(upass == data.upass){
+						Swal.fire({
+						  title: "로그인 성공!",
+						  text: "",
+						  icon: "success"
+						}).then((result) => {							
+							sessionStorage.setItem("user", JSON.stringify(data));
+							location.href="/"
+						});				
+					}else{
+						Swal.fire({
+						  title: "비밀번호가 일치하지 않습니다!",
+						  text: "",
+						  icon: "error"
+						});												
+					}
+				},
+				error:function(){
+					Swal.fire({
+					  title: "아이디가 존재하지 않습니다!",
+					  text: "",
+					  icon: "error"
+					});
+				}
+			});
+		});
+	</script>
+</div>

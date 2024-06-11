@@ -1,0 +1,68 @@
+<div xmlns:th="http://www.thymeleaf.org" style="text-align:center;">
+	<h1 style="text-align:center;">게시글 정보</h1>
+	<div style="text-align:center;">
+		[<span th:text="${bbs.bid}"></span>]
+		<span th:text="${bbs.title}"></span>
+	</div>
+	<p>
+	<div>
+		작성자 : <span th:text="${bbs.uname}"></span>
+		<span th:text="${bbs.uid}"></span>
+	</div>
+	<p>
+	<div>
+		작성일 : <span th:text="${#dates.format(bbs.regDate, 'yyyy.MM.dd HH:mm:dd')}"></span>
+	</div>
+	<p>
+	<div th:text="${bbs.contents}" style="white-space:pre-wrap; padding: 0% 25%;"></div>
+	<hr>
+	<div id="buttons">
+		<button id="btn-update">수정</button>
+		<button id="btn-delete">삭제</button>
+	</div>
+</div>
+
+<script>
+	const uid = "[[${bbs.uid}]]";
+	const bid = "[[${bbs.bid}]]";
+	
+	if(user.uid == uid){
+		$("#buttons").show();
+	}else{
+		$("#buttons").hide();
+	}
+	
+	$("#btn-update").on("click", function(){
+		location.href="/bbs/update/" + bid;
+	});
+	
+	$("#btn-delete").on("click", function(){
+		Swal.fire({
+		  title: "게시물을 삭제",
+		  text: bid + "번 게시물을 삭제하시겠습니까?",
+		  showCancelButton: true,
+		  confirmButtonText: "Confirm",
+		  icon:"warning",
+		}).then((result) => {
+		  /* Read more about isConfirmed, isDenied below */
+		  if (result.isConfirmed) {				  
+			// 삭제처리
+			$.ajax({
+				type:"post",
+				url:"/bbs/delete/" + bid,
+				success:function(){
+					Swal.fire({
+					  title: "삭제 성공!",
+					  text: "",
+					  icon: "success"
+					}).then((result) => {							
+						location.href="/bbs/list";
+					});	
+				}
+			});
+		  }else{
+			  return;
+		  }
+		});
+	});
+</script>

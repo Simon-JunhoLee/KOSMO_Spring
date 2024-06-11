@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+	<h1>회원가입</h1>
+	<form name="frm">
+		<input name="uid" placeholder="아이디">
+		<button type="button" id="btn-check">중복체크</button> <br>
+		<input name="upass" type="password" placeholder="비밀번호"> <br>
+		<input name="uname" placeholder="이름"> <br>
+		<button>등록</button>
+		<button type="reset">취소</button>
+	</form>
+</body>
+<script>
+	let check = false;
+	$("#btn-check").on("click", function(){
+		const uid = $(frm.uid).val();
+		$.ajax({
+			type:"get",
+			url:"/users/" + uid,
+			dataType:"json",
+			success:function(data){
+				// console.log(data);					
+				Swal.fire({
+				  title: "",
+				  text: "이미 사용중인 아이디입니다.",
+				  icon: "error"
+				});
+				return;
+			},
+			error: function(){
+				if(uid == ""){						
+					Swal.fire({
+					  title: "",
+					  text: "아이디를 입력하세요.",
+					  icon: "error"
+					});
+					return;
+				}else{	
+					Swal.fire({
+					  title: "",
+					  text: "사용 가능한 아이디입니다.",
+					  icon: "success"
+					});
+					check = true;
+				}
+			}
+		});
+	});
+	
+	$(frm.uid).on("change", function(){
+		check = false;
+	});
+	
+	$(frm).on("submit", function(e){
+		e.preventDefault();
+		const uid = $(frm.uid).val();
+		const upass = $(frm.upass).val();
+		const uname = $(frm.uname).val();
+		
+		if(uid == "" || upass == "" || uname == ""){
+			Swal.fire({
+			  title: "입력 에러",
+			  text: "모든 정보를 입력하세요!",
+			  icon: "error"
+			});
+			return;
+		}
+		
+		if(check == false){
+			Swal.fire({
+			  title: "",
+			  text: "아이디 중복체크를 하세요!",
+			  icon: "error"
+			});
+			return;
+		}
+		
+		Swal.fire({
+			  title: "회원가입 하시겠습니까?",
+			  showCancelButton: true,
+			  confirmButtonText: "Confirm",
+			  icon:"info",
+			}).then((result) => {
+			  /* Read more about isConfirmed, isDenied below */
+			  if (result.isConfirmed) {				  
+				$.ajax({
+					type:"post",
+					url:"/users/insert",
+					data:{uid, upass, uname},
+					success:function(data){
+						if(data === 1){
+							Swal.fire({
+							  title: "가입성공",
+							  text: "",
+							  icon: "success"
+							}).then((result) => {							
+								location.href="/users/list";
+							});
+						}else{							
+							Swal.fire({
+							  title: "가입실패",
+							  text: "이미 존재하는 아이디입니다.",
+							  icon: "error"
+							}).then((result) => {							
+								return;
+							});
+						}
+					}
+				});
+			  }else{
+				  return;
+			  }
+			});
+	});
+</script>
+</html>
