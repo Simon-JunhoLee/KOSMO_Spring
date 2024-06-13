@@ -58,4 +58,9 @@
    		set viewCnt=viewCnt+1
    		where bid=#{bid}
    </update>
+   
+   <update id="updateReplyCnt">
+   		update bbs set replyCnt=replyCnt + #{amount}
+   		where bid=#{bid}
+   </update>
 </mapper>
