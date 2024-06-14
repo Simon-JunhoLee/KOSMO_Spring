@@ -13,6 +13,7 @@ public class ReplyVO extends BBSVO{
 	private String contents;
 	@JsonFormat(pattern="yyyy년 MM월 dd일 HH시 mm분 ss초", timezone="Asia/Seoul")
 	private Date updateDate;
+	private int rating;
 	
 	public ReplyVO() {
 		super();
@@ -30,7 +31,7 @@ public class ReplyVO extends BBSVO{
 		// TODO Auto-generated constructor stub
 	}
 
-	public ReplyVO(int rid, int bid, String uid, Date regDate, String contents, Date updateDate) {
+	public ReplyVO(int rid, int bid, String uid, Date regDate, String contents, Date updateDate, int rating) {
 		super();
 		this.rid = rid;
 		this.bid = bid;
@@ -38,12 +39,13 @@ public class ReplyVO extends BBSVO{
 		this.regDate = regDate;
 		this.contents = contents;
 		this.updateDate = updateDate;
+		this.rating = rating;
 	}
 
 	@Override
 	public String toString() {
 		return "ReplyVO [rid=" + rid + ", bid=" + bid + ", uid=" + uid + ", regDate=" + regDate + ", contents="
-				+ contents + ", updateDate=" + updateDate + ", getUname()=" + getUname() + "]";
+				+ contents + ", updateDate=" + updateDate + ", rating=" + rating + ", getUname()=" + getUname() + "]";
 	}
 
 	public int getRid() {
@@ -81,5 +83,11 @@ public class ReplyVO extends BBSVO{
 	}
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 }
