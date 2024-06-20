@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dao.MessageDAO;
@@ -47,5 +48,25 @@ public class MessageRestController {
 	@GetMapping("/receive/{mid}")
 	public MessageVO readReceive(@PathVariable("mid") int mid) {
 		return service.readReceive(mid);
+	}
+	
+	@PostMapping("/send/delete/{mid}")
+	public void deleteSend(@PathVariable("mid") int mid) {
+		dao.deleteSend(mid);
+	}
+	
+	@PostMapping("/receive/delete/{mid}")
+	public void deleteReceive(@PathVariable("mid") int mid) {
+		dao.deleteReceive(mid);
+	}
+	
+	@GetMapping("/delete/list/{uid}")
+	public List<MessageVO> deleteList(@PathVariable("uid") String uid) {
+		return dao.listDelete(uid);
+	}
+	
+	@PostMapping("/reset/delete/{mid}")
+	public void resetDelete(@PathVariable("mid") int mid, @RequestParam("type") String type) {
+		dao.resetDelete(mid, type);
 	}
 }

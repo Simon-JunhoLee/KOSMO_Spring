@@ -4,14 +4,14 @@
 	<select id="listSend" resultType="com.example.domain.MessageVO">
 		select m.*, u.uname
 		from messages m, users u
-		where sender=#{sender} and u.uid=m.receiver
+		where sender=#{sender} and u.uid=m.receiver and sendDelete=0
 		order by mid desc; 
 	</select>
 	
 	<select id="listReceive" resultType="com.example.domain.MessageVO">
 		select m.*, u.uname
 		from messages m, users u
-		where receiver=#{receiver} and u.uid=m.sender
+		where receiver=#{receiver} and u.uid=m.sender and receiveDelete=0
 		order by mid desc; 
 	</select>
 	
@@ -37,4 +37,41 @@
  		insert into messages(sender, receiver, message)
  		values(#{sender}, #{receiver}, #{message})
  	</insert>
+ 	
+ 	<update id="deleteReceive">
+ 		update messages
+ 		set receiveDelete=1
+ 		where mid=#{mid}
+ 	</update>
+
+ 	<update id="deleteSend">
+ 		update messages
+ 		set sendDelete=1
+ 		where mid=#{mid}
+ 	</update>
+ 	
+ 	<select id="listDelete" resultType="com.example.domain.MessageVO">
+ 		SELECT 
+		    m.*, 
+		    (SELECT uname FROM users WHERE uid = m.receiver) AS receiverName,
+		    (SELECT uname FROM users WHERE uid = m.sender) AS senderName
+		FROM 
+		    messages m
+		WHERE 
+		    (m.receiveDelete = 1 AND m.receiver = #{uid})
+		    OR (m.sendDelete = 1 AND m.sender = #{uid})
+		ORDER BY 
+		    m.mid DESC;
+ 	</select>
+ 	
+ 	<update id="resetDelete">
+ 		update messages
+ 		<if test="type == 'send'">
+ 			set sendDelete=0
+ 		</if>
+ 		<if test="type == 'receive'">
+ 			set receiveDelete=0
+ 		</if>
+ 		where mid=#{mid}
+ 	</update>
 </mapper>

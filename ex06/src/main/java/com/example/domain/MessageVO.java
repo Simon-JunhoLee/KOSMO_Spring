@@ -13,19 +13,24 @@ public class MessageVO extends UsersVO{
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
 	private Date readDate;
 	private String message;
-	
+	private int sendDelete;
+	private int receiveDelete;
+	private String senderName;
+	private String receiverName;
+
 	public MessageVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public MessageVO(String uid, String upass, String uname, String phone, String address1, String address2,
 			String photo, Date regDate) {
 		super(uid, upass, uname, phone, address1, address2, photo, regDate);
 		// TODO Auto-generated constructor stub
 	}
 
-	public MessageVO(int mid, String sender, String receiver, Date sendDate, Date readDate, String message) {
+	public MessageVO(int mid, String sender, String receiver, Date sendDate, Date readDate, String message,
+			int sendDelete, int receiveDelete, String senderName, String receiverName) {
 		super();
 		this.mid = mid;
 		this.sender = sender;
@@ -33,6 +38,10 @@ public class MessageVO extends UsersVO{
 		this.sendDate = sendDate;
 		this.readDate = readDate;
 		this.message = message;
+		this.sendDelete = sendDelete;
+		this.receiveDelete = receiveDelete;
+		this.senderName = senderName;
+		this.receiverName = receiverName;
 	}
 
 	public int getMid() {
@@ -70,5 +79,30 @@ public class MessageVO extends UsersVO{
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public int getSendDelete() {
+		return sendDelete;
+	}
+	public void setSendDelete(int sendDelete) {
+		this.sendDelete = sendDelete;
+	}
+	public int getReceiveDelete() {
+		return receiveDelete;
+	}
+	public void setReceiveDelete(int receiveDelete) {
+		this.receiveDelete = receiveDelete;
+	}
+	public String getSenderName() {
+		return senderName;
+	}
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
+	public String getReceiverName() {
+		return receiverName;
+	}
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
 	}
 }

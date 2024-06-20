@@ -1,5 +1,6 @@
 package com.example.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -42,5 +43,32 @@ public class MessageDAOImpl implements MessageDAO{
 	@Override
 	public List<MessageVO> listReceive(String receiver) {
 		return session.selectList(namespace + ".listReceive", receiver);
+	}
+
+	@Override
+	public void deleteReceive(int mid) {
+		// TODO Auto-generated method stub
+		session.update(namespace + ".deleteReceive", mid);
+	}
+
+	@Override
+	public void deleteSend(int mid) {
+		// TODO Auto-generated method stub
+		session.update(namespace + ".deleteSend", mid);
+	}
+
+	@Override
+	public List<MessageVO> listDelete(String uid) {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace + ".listDelete", uid);
+	}
+
+	@Override
+	public void resetDelete(int mid, String type) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("mid", mid);
+		map.put("type", type);
+		session.update(namespace + ".resetDelete", map);
 	}
 }
