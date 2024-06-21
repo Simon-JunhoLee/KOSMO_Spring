@@ -62,4 +62,10 @@ public class StuDAOImpl implements StuDAO {
 		session.delete(namespace + ".delete", scode);
 	}
 
+	@Override
+	public void updatePhoto(StuVO vo) {
+		// TODO Auto-generated method stub
+		session.update(namespace + ".updatePhoto", vo);
+	}
+
 }

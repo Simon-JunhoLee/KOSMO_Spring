@@ -54,6 +54,12 @@
 		where scode=#{scode}
 	</update>
 	
+	<update id="updatePhoto">
+			update students 
+			set photo=#{photo} 
+			where scode=#{scode}
+	</update>
+	
 	<delete id="delete">
 		delete from students
 		where scode=#{scode}

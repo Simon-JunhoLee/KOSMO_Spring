@@ -54,4 +54,9 @@ public class StuController {
 		String scode = request.get("scode");
 		dao.delete(scode);
 	}
+	
+	@PostMapping("/update/photo")
+	public void updatePhoto(@RequestBody StuVO vo) {
+		dao.updatePhoto(vo);
+	}
 }

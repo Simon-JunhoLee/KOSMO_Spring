@@ -12,6 +12,7 @@ public class StuVO extends ProVO {
 	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 	private Date birthday;
 	private String advisor;
+	private String photo;
 	
 	public StuVO() {
 		super();
@@ -23,7 +24,7 @@ public class StuVO extends ProVO {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public StuVO(String scode, String sname, String dept, int year, Date birthday, String advisor) {
+	public StuVO(String scode, String sname, String dept, int year, Date birthday, String advisor, String photo) {
 		super();
 		this.scode = scode;
 		this.sname = sname;
@@ -31,8 +32,9 @@ public class StuVO extends ProVO {
 		this.year = year;
 		this.birthday = birthday;
 		this.advisor = advisor;
+		this.photo = photo;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "StuVO [scode=" + scode + ", sname=" + sname + ", dept=" + dept + ", year=" + year + ", birthday="
@@ -74,5 +76,11 @@ public class StuVO extends ProVO {
 	}
 	public void setAdvisor(String advisor) {
 		this.advisor = advisor;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 }
